@@ -1,6 +1,7 @@
 package Capstone.SpringWebRoute.Controllers;
 
 import Capstone.SpringWebRoute.Models.User;
+import Capstone.SpringWebRoute.Models.UserPage;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -20,6 +21,11 @@ public class UserController {
     @PostMapping("/AddUser")
     public String addNewUser(@RequestBody User newUser) {
         Users.add(newUser);
+
+        // Create User Page When A new User is created
+        //UserPage userPage = new UserPage( 1, newUser.getUserName(), newUser.getUserId());
+
+
 
         return "User " + newUser.getUserName() + " has been added";
     }
