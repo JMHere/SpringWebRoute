@@ -1,5 +1,7 @@
 package Capstone.SpringWebRoute.Models;
 
+import java.util.Date;
+
 public class UserPage {
 
     private int pageId;
@@ -9,6 +11,7 @@ public class UserPage {
     private int numberOfFollowers;
     private int numberOfPosts;
     private int userId;
+    private Date pageDate;
     private boolean disabled;
 
     public UserPage() {
@@ -75,6 +78,14 @@ public class UserPage {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public Date getPageDate() {
+        return pageDate;
+    }
+
+    public void setPageDate(Date pageDate) {
+        this.pageDate = pageDate;
     }
 
     public boolean isDisabled() {
