@@ -1,14 +1,26 @@
 package Capstone.SpringWebRoute.Models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
+import java.util.Date;
+import java.util.List;
+
+@Entity
 public class UserPage {
 
+    @Id
     private int pageId;
     private String bio;
     private String profilePicture;
     private String userName;
     private int numberOfFollowers;
     private int numberOfPosts;
+    @OneToMany
+    private List<Post> posts;
     private int userId;
+    private Date pageDate;
     private boolean disabled;
 
     public UserPage() {
@@ -75,6 +87,14 @@ public class UserPage {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public Date getPageDate() {
+        return pageDate;
+    }
+
+    public void setPageDate(Date pageDate) {
+        this.pageDate = pageDate;
     }
 
     public boolean isDisabled() {
