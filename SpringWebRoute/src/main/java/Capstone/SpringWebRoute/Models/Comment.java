@@ -6,10 +6,12 @@ public class Comment {
 
     private int commentId;
     private int userId;
+    private int postId;
     private String userName;
     private Date commentDate;
     private String comment;
     private boolean commentDisabled;
+    private int commentLikes;
 
     public int getCommentId() {
         return commentId;
@@ -25,6 +27,14 @@ public class Comment {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public int getPostId() {
+        return postId;
+    }
+
+    public void setPostId(int postId) {
+        this.postId = postId;
     }
 
     public String getUserName() {
@@ -57,5 +67,13 @@ public class Comment {
 
     public void setCommentDisabled(boolean commentDisabled) {
         this.commentDisabled = commentDisabled;
+    }
+
+    public int getCommentLikes() {
+        return commentLikes;
+    }
+
+    public void setCommentLikes(int commentLikes) {
+        this.commentLikes = commentLikes;
     }
 }
