@@ -1,14 +1,22 @@
 package Capstone.SpringWebRoute.Models;
 
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
 import java.util.Date;
 import java.util.List;
 
+@Entity
 public class Post {
 
+    @Id
     private int postId;
     private String postImage;
     private String postText;
     private String postDescription;
+    @OneToMany
     private List<Comment> comments;
     private int UserId;
     private int UserPageId;

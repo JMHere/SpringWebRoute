@@ -1,15 +1,24 @@
 package Capstone.SpringWebRoute.Models;
 
-import java.util.Date;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
+import java.util.Date;
+import java.util.List;
+
+@Entity
 public class UserPage {
 
+    @Id
     private int pageId;
     private String bio;
     private String profilePicture;
     private String userName;
     private int numberOfFollowers;
     private int numberOfPosts;
+    @OneToMany
+    private List<Post> posts;
     private int userId;
     private Date pageDate;
     private boolean disabled;

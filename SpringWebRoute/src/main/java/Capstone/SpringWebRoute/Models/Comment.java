@@ -1,9 +1,14 @@
 package Capstone.SpringWebRoute.Models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
 import java.util.Date;
 
+@Entity
 public class Comment {
 
+    @Id
     private int commentId;
     private int userId;
     private int postId;

@@ -65,15 +65,15 @@ public class UserPageController {
         return "Page does Not exist";
     }
 
-    @PostMapping("/CreatePage/{userId}")
-    public String createUserPage(@PathVariable int userId, @RequestBody UserPage newUserPage) {
-
-        newUserPage.setUserId(userId);
-
-        userPages.add(newUserPage);
-
-        return "UserPage Created";
-    }
+//    @PostMapping("/CreatePage/{userId}")
+//    public String createUserPage(@PathVariable int userId, @RequestBody UserPage newUserPage) {
+//
+//        newUserPage.setUserId(userId);
+//
+//        userPages.add(newUserPage);
+//
+//        return "UserPage Created";
+//    }
 
     @PutMapping("/ChangePFP/{pageId}")
     public String updatedPFP(@PathVariable int pageId, @RequestBody UserPage updatedUserPage) {
