@@ -20,8 +20,9 @@ public class UserService {
         return userRepo.findAll();
     }
 
-    public Optional<User> findUserById(int userId) {
-        return userRepo.findById(userId);
+    public User findUserById(int userId) {
+        User user = userRepo.findById(userId).get();
+        return user;
     }
 
     public User save(User user) {
@@ -29,11 +30,6 @@ public class UserService {
     }
 
     public User delete(int id) {
-        User user = userRepo.findById(id).get();
-        return user;
-    }
-
-    public User restorUser(int id) {
         User user = userRepo.findById(id).get();
         return user;
     }

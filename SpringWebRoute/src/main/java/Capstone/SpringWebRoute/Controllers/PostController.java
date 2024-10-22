@@ -1,6 +1,8 @@
 package Capstone.SpringWebRoute.Controllers;
 
 import Capstone.SpringWebRoute.Models.Post;
+import Capstone.SpringWebRoute.Service.PostService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -10,64 +12,66 @@ import java.util.List;
 @RequestMapping("/Post")
 public class PostController {
 
-        public List<Post> posts = new ArrayList<>();
+    public List<Post> posts = new ArrayList<>();
 
-        @PostMapping("/AddPost/{userId}")
-        public Post addPost(@PathVariable int userId, @RequestBody Post newPost) {
+    @Autowired
+    PostService postSer;
 
-            newPost.setUserId(userId);
-            posts.add(newPost);
+    @PostMapping("/AddPost/{userId}")
+    public Post addPost(@PathVariable int userId, @RequestBody Post newPost) {
 
-            return newPost;
-        }
+        newPost.setUserId(userId);
+        postSer.save(newPost);
 
-        @GetMapping("/GetAllPosts")
-        public List<Post> getAllPosts() {
-            return posts;
-        }
+        return newPost;
+    }
 
-        @GetMapping("/GetPostsByUserId/{userId}")
-        public List<Post> getPostsByUserId(@PathVariable int userId) {
+    @GetMapping("/GetAllPosts")
+    public List<Post> getAllPosts() {
+        return postSer.getAllPosts();
+    }
 
-            List<Post> foundPosts = new ArrayList<>();
+    @GetMapping("/GetPost/{postId}")
+    public Post getPostById(@PathVariable int postId) {
+        return postSer.getPostById(postId);
+    }
 
-            for (Post post : posts) {
-                if (post.getUserId() == userId) {
-                    foundPosts.add(post);
-                }
+
+    @GetMapping("/GetPostsByUserId/{userId}")
+    public List<Post> getPostsByUserId(@PathVariable int userId) {
+
+        return postSer.getAllPostsByUserId(userId);
+    }
+
+    @PutMapping("/UpdatePost")
+    public Post updatePost(@RequestBody Post upPost) {
+        return postSer.save(upPost);
+    }
+
+    //TODO Update for DB --Not sure
+    @PutMapping("/UpdatePostDesc/{postId}")
+    public Post updatePostDescription(@PathVariable int postId, @RequestBody Post upPost) {
+
+        Post foundPost = new Post();
+
+        for (Post post : posts) {
+            if (post.getPostId() == postId) {
+                post.setPostDescription(upPost.getPostDescription());
+                foundPost = post;
             }
-
-            return foundPosts;
         }
 
-        @PutMapping("/UpdatePostDesc/{postId}")
-        public Post updatePostDescription(@PathVariable int postId, @RequestBody Post upPost) {
+        return foundPost;
+    }
 
-            Post foundPost = new Post();
+    @PutMapping("/DeletePost/{postId}")
+    public Post deletePost(@PathVariable int postId) {
 
-            for (Post post : posts) {
-                if (post.getPostId() == postId) {
-                    post.setPostDescription(upPost.getPostDescription());
-                    foundPost = post;
-                }
-            }
+        Post currentPost = postSer.getPostById(postId);
 
-            return foundPost;
-        }
+        currentPost.setPostDisabled(true);
 
-        @PutMapping("/DeletePost/{postId}")
-        public Post deletePost(@PathVariable int postId) {
-
-            Post foundPost = new Post();
-
-            for (Post post : posts) {
-                if (post.getPostId() == postId) {
-                    post.setPostDisabled(true);
-                    foundPost = post;
-                }
-            }
-
-            return foundPost;
-        }
+        return currentPost;
+    }
 
 }

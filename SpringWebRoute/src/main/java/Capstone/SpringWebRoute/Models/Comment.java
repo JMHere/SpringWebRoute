@@ -1,9 +1,9 @@
 package Capstone.SpringWebRoute.Models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Comment {
@@ -11,7 +11,8 @@ public class Comment {
     @Id
     private int commentId;
     private int userId;
-    private int postId;
+    @OneToMany
+    private List<Post> posts;
     private String userName;
     private Date commentDate;
     private String comment;
@@ -34,12 +35,12 @@ public class Comment {
         this.userId = userId;
     }
 
-    public int getPostId() {
-        return postId;
+    public List<Post> getPosts() {
+        return posts;
     }
 
-    public void setPostId(int postId) {
-        this.postId = postId;
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
     }
 
     public String getUserName() {

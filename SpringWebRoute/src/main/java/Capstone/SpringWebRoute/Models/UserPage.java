@@ -1,8 +1,6 @@
 package Capstone.SpringWebRoute.Models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.util.Date;
 import java.util.List;
@@ -11,6 +9,7 @@ import java.util.List;
 public class UserPage {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int pageId;
     private String bio;
     private String profilePicture;
@@ -26,6 +25,17 @@ public class UserPage {
     public UserPage() {
 
     }
+
+    public UserPage(int userId, String userName) {
+        this.userId = userId;
+        this.userName = userName;
+    }
+
+    public void createDate() {
+        this.pageDate = new Date();
+    }
+
+
 
     public UserPage(int pageId, String userName, int userId) {
         this.pageId = pageId;

@@ -1,12 +1,8 @@
 package Capstone.SpringWebRoute.Models;
 
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 public class Post {
@@ -16,10 +12,10 @@ public class Post {
     private String postImage;
     private String postText;
     private String postDescription;
-    @OneToMany
-    private List<Comment> comments;
-    private int UserId;
-    private int UserPageId;
+    @ManyToOne
+    private Comment comment;
+    private int userId;
+    private int userPageId;
     private int postLikes;
     private int postShares;
     private Date postDate;
@@ -58,19 +54,19 @@ public class Post {
     }
 
     public int getUserId() {
-        return UserId;
+        return userId;
     }
 
     public void setUserId(int userId) {
-        UserId = userId;
+        this.userId = userId;
     }
 
     public int getUserPageId() {
-        return UserPageId;
+        return userPageId;
     }
 
     public void setUserPageId(int userPageId) {
-        UserPageId = userPageId;
+        this.userPageId = userPageId;
     }
 
     public int getPostLikes() {
