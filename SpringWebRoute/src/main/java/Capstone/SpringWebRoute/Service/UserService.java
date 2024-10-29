@@ -25,6 +25,11 @@ public class UserService {
         return user;
     }
 
+    public User findUserWithCred(String userName, String password) {
+        User user = userRepo.findByUserNameAndPassWord(userName, password);
+        return user;
+    }
+
     public User save(User user) {
         return userRepo.save(user);
     }

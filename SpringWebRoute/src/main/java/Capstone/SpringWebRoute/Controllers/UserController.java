@@ -29,10 +29,15 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public User getUserById() {
+    public User getUserById(@PathVariable int userId) {
             User result = userSer.findUserById(1);
             return result;
+    }
 
+    @GetMapping("/{userName}/{passWord}")
+    public User getUserByCred(@PathVariable String userName,@PathVariable String passWord) {
+        User user = userSer.findUserWithCred(userName, passWord);
+        return user;
     }
 
     @PostMapping("/AddUser")
