@@ -1,5 +1,7 @@
 package Capstone.SpringWebRoute.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -13,12 +15,13 @@ public class UserPage {
     private int pageId;
     private String bio;
     private String profilePicture;
-    private String userName;
+    private String username;
     private int numberOfFollowers;
     private int numberOfPosts;
-    @OneToMany
-    private List<Post> posts;
-    private int userId;
+    @JsonBackReference
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
     private Date pageDate;
     private boolean disabled;
 
@@ -26,21 +29,13 @@ public class UserPage {
 
     }
 
-    public UserPage(int userId, String userName) {
-        this.userId = userId;
-        this.userName = userName;
+    public UserPage( String userName) {
+        this.username = userName;
     }
 
-    public void createDate() {
-        this.pageDate = new Date();
-    }
-
-
-
-    public UserPage(int pageId, String userName, int userId) {
-        this.pageId = pageId;
-        this.userName = userName;
-        this.userId = userId;
+    public UserPage(String userName, User user) {
+        this.username = userName;
+        this.user = user;
     }
 
     public int getPageId() {
@@ -67,12 +62,12 @@ public class UserPage {
         this.profilePicture = profilePicture;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String userName) {
+        this.username = userName;
     }
 
     public int getNumberOfFollowers() {
@@ -91,14 +86,6 @@ public class UserPage {
         this.numberOfPosts = numberOfPosts;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
     public Date getPageDate() {
         return pageDate;
     }
@@ -113,5 +100,13 @@ public class UserPage {
 
     public void setDisabled(boolean disabled) {
         this.disabled = disabled;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

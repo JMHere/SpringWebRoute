@@ -1,19 +1,22 @@
 package Capstone.SpringWebRoute.Models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.Date;
-import java.util.List;
 
 @Entity
 public class Comment {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int commentId;
     private int userId;
-    @OneToMany
-    private List<Post> posts;
-    private String userName;
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
+    private String username;
     private Date commentDate;
     private String comment;
     private boolean commentDisabled;
@@ -35,20 +38,12 @@ public class Comment {
         this.userId = userId;
     }
 
-    public List<Post> getPosts() {
-        return posts;
+    public String getUsername() {
+        return username;
     }
 
-    public void setPosts(List<Post> posts) {
-        this.posts = posts;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String userName) {
+        this.username = userName;
     }
 
     public Date getCommentDate() {
@@ -81,5 +76,13 @@ public class Comment {
 
     public void setCommentLikes(int commentLikes) {
         this.commentLikes = commentLikes;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
     }
 }

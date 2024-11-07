@@ -1,5 +1,6 @@
 package Capstone.SpringWebRoute.Service;
 
+import Capstone.SpringWebRoute.Models.User;
 import Capstone.SpringWebRoute.Models.UserPage;
 import Capstone.SpringWebRoute.Repository.UserPageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,17 @@ public class UserPageService {
     }
 
     public UserPage findUserPageByUserId(int userId) {
-        return userRepo.findUserPageByUserId(userId);
+        return userRepo.findUserPageByUserID(userId);
+    }
+
+    public List<UserPage> findUserPageByUsername(String username) {
+        return userRepo.findUserPageByUsernameStartsWith(username);
     }
 
     public void save(UserPage userPage) {
         userRepo.save(userPage);
     }
+    
+
 
 }

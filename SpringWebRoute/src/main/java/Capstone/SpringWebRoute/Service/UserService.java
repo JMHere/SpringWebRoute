@@ -25,8 +25,13 @@ public class UserService {
         return user;
     }
 
+    public User findUserByUsername(String username) {
+        User user = userRepo.findByUsername(username);
+        return user;
+    }
+
     public User findUserWithCred(String userName, String password) {
-        User user = userRepo.findByUserNameAndPassWord(userName, password);
+        User user = userRepo.findByUsernameAndPassword(userName, password);
         return user;
     }
 

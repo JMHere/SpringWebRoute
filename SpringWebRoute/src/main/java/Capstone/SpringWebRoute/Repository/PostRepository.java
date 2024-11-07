@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface PostRepository extends JpaRepository<Post, Integer> {
 
-    List<Post> findPostsByUserId(int userId);
+    List<Post> findPostsByUserPageId(int pageId);
 
 }

@@ -1,5 +1,6 @@
 package Capstone.SpringWebRoute.Models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.*;
@@ -8,14 +9,16 @@ import java.util.*;
 public class Post {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int postId;
     private String postImage;
     private String postText;
     private String postDescription;
-    @ManyToOne
-    private Comment comment;
-    private int userId;
+    @JsonManagedReference
+    @OneToMany(mappedBy = "post")
+    private List<Comment> comments;
     private int userPageId;
+    private String username;
     private int postLikes;
     private int postShares;
     private Date postDate;
@@ -53,20 +56,20 @@ public class Post {
         this.postDescription = postDescription;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
     public int getUserPageId() {
         return userPageId;
     }
 
-    public void setUserPageId(int userPageId) {
-        this.userPageId = userPageId;
+    public void setUserPageId(int userId) {
+        this.userPageId = userId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public int getPostLikes() {
@@ -99,5 +102,17 @@ public class Post {
 
     public void setPostDisabled(boolean postDisabled) {
         this.postDisabled = postDisabled;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
     }
 }

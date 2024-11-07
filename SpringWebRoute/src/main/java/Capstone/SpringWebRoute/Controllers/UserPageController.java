@@ -33,6 +33,11 @@ public class UserPageController {
         return userPSer.getAllUserPages();
     }
 
+    @GetMapping("/GetByUserName/{username}")
+    public List<UserPage> getPagesByUsername(@PathVariable String username) {
+        return userPSer.findUserPageByUsername(username);
+    }
+
     @PutMapping("/DisablePage/{pageId}")
     public String disablePage(@PathVariable int pageId) {
 

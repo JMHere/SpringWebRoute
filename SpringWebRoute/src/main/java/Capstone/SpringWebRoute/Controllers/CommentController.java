@@ -4,10 +4,13 @@ import Capstone.SpringWebRoute.Models.Comment;
 import Capstone.SpringWebRoute.Models.Post;
 import Capstone.SpringWebRoute.Service.CommentService;
 import Capstone.SpringWebRoute.Service.PostService;
+import Capstone.SpringWebRoute.Service.UserPageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -17,17 +20,30 @@ public class CommentController {
     @Autowired
     CommentService commentSer;
 
+    @Autowired
+    PostService postService;
+
+    @Autowired
+    UserPageService userPageService;
+
     @PostMapping("/AddComment/{postId}/{userId}")
     public String addComment(@PathVariable int postId, @PathVariable int userId, @RequestBody Comment newComment) {
 
-        //newComment.setPostId(postId);
+        newComment.setPost(postService.getPostById(postId));
         newComment.setUserId(userId);
+        newComment.setUsername(userPageService.findUserPageByUserId(userId).getUsername());
+        newComment.setCommentDate(addDate());
         commentSer.save(newComment);
-//
-//        comments.add(newComment);
+        postService.getPostById(postId).addComment(newComment);
 
 
         return "Comment added";
+    }
+
+    public Date addDate() {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date curentDate = new Date();
+        return curentDate;
     }
 
     @GetMapping("/GetAllComments")

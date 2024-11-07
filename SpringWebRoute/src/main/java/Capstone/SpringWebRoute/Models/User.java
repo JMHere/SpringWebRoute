@@ -1,18 +1,22 @@
 package Capstone.SpringWebRoute.Models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 
 @Entity
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int userId;
-    private String userName;
+    private String username;
     private String email;
-    private String passWord;
-    private int userPageId;
+    private String password;
     private boolean deleted;
+    @JsonBackReference
+    @OneToOne
+    @JoinColumn(name = "userPage_id")
+    private UserPage userPage;
 
     public int getUserId() {
         return userId;
@@ -22,12 +26,12 @@ public class User {
         this.userId = userId;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String userName) {
+        this.username = userName;
     }
 
     public String getEmail() {
@@ -38,20 +42,12 @@ public class User {
         this.email = email;
     }
 
-    public String getPassWord() {
-        return passWord;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPassWord(String passWord) {
-        this.passWord = passWord;
-    }
-
-    public int getUserPageId() {
-        return userPageId;
-    }
-
-    public void setUserPageId(int userPageId) {
-        this.userPageId = userPageId;
+    public void setPassword(String passWord) {
+        this.password = passWord;
     }
 
     public boolean isDeleted() {
@@ -60,5 +56,13 @@ public class User {
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public UserPage getUserPage() {
+        return userPage;
+    }
+
+    public void setUserPage(UserPage userPage) {
+        this.userPage = userPage;
     }
 }

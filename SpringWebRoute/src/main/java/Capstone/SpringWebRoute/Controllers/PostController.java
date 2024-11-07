@@ -5,7 +5,9 @@ import Capstone.SpringWebRoute.Service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -17,13 +19,21 @@ public class PostController {
     @Autowired
     PostService postSer;
 
-    @PostMapping("/AddPost/{userId}")
-    public Post addPost(@PathVariable int userId, @RequestBody Post newPost) {
+    @PostMapping("/AddPost/{pageId}/{username}")
+    public Post addPost(@PathVariable int pageId,@PathVariable String username ,@RequestBody Post newPost) {
 
-        newPost.setUserId(userId);
+        newPost.setUserPageId(pageId);
+        newPost.setPostDate(addDate());
+        newPost.setUsername(username);
         postSer.save(newPost);
 
         return newPost;
+    }
+
+    public Date addDate() {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date curentDate = new Date();
+        return curentDate;
     }
 
     @GetMapping("/GetAllPosts")
@@ -37,10 +47,10 @@ public class PostController {
     }
 
 
-    @GetMapping("/GetPostsByUserId/{userId}")
-    public List<Post> getPostsByUserId(@PathVariable int userId) {
+    @GetMapping("/GetPostsByPageId/{pageId}")
+    public List<Post> getPostsByUserId(@PathVariable int pageId) {
 
-        return postSer.getAllPostsByUserId(userId);
+        return postSer.getAllPostsByUserId(pageId);
     }
 
     @PutMapping("/UpdatePost")

@@ -17,8 +17,8 @@ public class PostService {
         return postRepo.findById(postId).get();
     }
 
-    public List<Post> getAllPostsByUserId(int userId) {
-        return postRepo.findPostsByUserId(userId);
+    public List<Post> getAllPostsByUserId(int pageId) {
+        return postRepo.findPostsByUserPageId(pageId);
     }
 
     public List<Post> getAllPosts() {
