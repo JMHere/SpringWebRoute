@@ -3,6 +3,7 @@ package Capstone.SpringWebRoute.Models;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.sql.Blob;
 import java.util.*;
 
 @Entity
@@ -11,6 +12,7 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int postId;
+    @Column(columnDefinition = "LONGTEXT")
     private String postImage;
     private String postText;
     private String postDescription;

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.sql.Blob;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +15,8 @@ public class UserPage {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int pageId;
     private String bio;
+
+    @Column(columnDefinition = "LONGTEXT")
     private String profilePicture;
     private String username;
     private int numberOfFollowers;
