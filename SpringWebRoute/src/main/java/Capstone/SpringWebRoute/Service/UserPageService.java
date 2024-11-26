@@ -30,6 +30,10 @@ public class UserPageService {
         return userRepo.findUserPageByUsernameStartsWith(username);
     }
 
+    public UserPage findSingleUserPageByUsername(String username) {
+        return userRepo.findUserPageByUsername(username);
+    }
+
     public void save(UserPage userPage) {
         userRepo.save(userPage);
     }

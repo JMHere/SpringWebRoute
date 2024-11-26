@@ -2,6 +2,7 @@ package Capstone.SpringWebRoute.Controllers;
 
 import Capstone.SpringWebRoute.Models.User;
 import Capstone.SpringWebRoute.Models.UserPage;
+import Capstone.SpringWebRoute.Service.FollowService;
 import Capstone.SpringWebRoute.Service.UserPageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,9 @@ public class UserPageController {
 
     @Autowired
     UserPageService userPSer;
+
+    @Autowired
+    FollowService followSer;
 
     @GetMapping("/UID/{userId}")
     public UserPage getUserPageByUserID(@PathVariable int userId) {
@@ -48,37 +52,40 @@ public class UserPageController {
         return "Page does Not exist";
     }
 
-//    @PostMapping("/CreatePage/{userId}")
-//    public String createUserPage(@PathVariable int userId, @RequestBody UserPage newUserPage) {
-//
-//        newUserPage.setUserId(userId);
-//
-//        userPages.add(newUserPage);
-//
-//        return "UserPage Created";
-//    }
-
     @PutMapping("/ChangePFP/{pageId}")
-    public String updatedPFP(@PathVariable int pageId, @RequestBody UserPage updatedUserPage) {
-
+    public void updatedPFP(@PathVariable int pageId, @RequestBody UserPage updatedUserPage) {
 
         UserPage currentUserPage = userPSer.findUserPageById(pageId);
         currentUserPage.setProfilePicture(updatedUserPage.getProfilePicture());
         userPSer.save(currentUserPage);
+    }
 
-//        for( UserPage page : userPages) {
-//            if (page.getPageId() == pageId) {
-//                page.setProfilePicture(updatedUserPage.getProfilePicture());
-//            }
-//        }
-//
-//
-//
-//        for (UserPage page : userPages) {
-//            System.out.println(page.getPageId());
-//        }
+    @PutMapping("/UpdateBio/{pageId}")
+    public void updateBio(@PathVariable int pageId, @RequestBody UserPage updatedUserPage) {
 
-        return "userPage updated";
+        UserPage currentUserPage = userPSer.findUserPageById(pageId);
+        currentUserPage.setBio(updatedUserPage.getBio());
+        userPSer.save(currentUserPage);
+
+    }
+
+    @PostMapping("/{followerId}/follow/{followedId}")
+    public String follow(@PathVariable int followerId, @PathVariable int followedId) {
+        UserPage foundUser = userPSer.findUserPageById(followedId);
+        foundUser.setNumberOfFollowers(foundUser.getNumberOfFollowers() + 1);
+        return followSer.followUser(followerId, followedId);
+    }
+
+    @PostMapping("/{followerId}/unfollow/{followedId}")
+    public String unfollow(@PathVariable int followerId, @PathVariable int followedId) {
+        UserPage foundUser = userPSer.findUserPageById(followedId);
+        foundUser.setNumberOfFollowers(foundUser.getNumberOfFollowers() - 1);
+        return followSer.unFollowUser(followerId, followedId);
+    }
+
+    @GetMapping("/checkFollow/{followerId}/{followedId}")
+    public boolean checkFollow(@PathVariable int followerId, @PathVariable int followedId) {
+        return followSer.checkFollow(followerId, followedId);
     }
 
 }

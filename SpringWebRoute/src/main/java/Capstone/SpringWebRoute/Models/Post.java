@@ -1,9 +1,9 @@
 package Capstone.SpringWebRoute.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
-import java.sql.Blob;
 import java.util.*;
 
 @Entity
@@ -19,6 +19,9 @@ public class Post {
     @JsonManagedReference
     @OneToMany(mappedBy = "post")
     private List<Comment> comments;
+    @JsonIgnore
+    @OneToMany(mappedBy = "post")
+    private List<Userlike> likes;
     private int userPageId;
     private String username;
     private int postLikes;
@@ -116,5 +119,13 @@ public class Post {
 
     public void addComment(Comment comment) {
         this.comments.add(comment);
+    }
+
+    public List<Userlike> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(List<Userlike> likes) {
+        this.likes = likes;
     }
 }

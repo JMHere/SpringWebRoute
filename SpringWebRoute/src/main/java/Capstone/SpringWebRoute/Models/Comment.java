@@ -14,7 +14,6 @@ public class Comment {
     private int userId;
     @JsonBackReference
     @ManyToOne
-    @JoinColumn(name = "post_id")
     private Post post;
     private String username;
     private Date commentDate;

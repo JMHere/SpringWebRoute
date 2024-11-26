@@ -1,10 +1,13 @@
 package Capstone.SpringWebRoute.Models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.sun.source.tree.ForLoopTree;
 import jakarta.persistence.*;
 
 import java.sql.Blob;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,12 +23,19 @@ public class UserPage {
     private String profilePicture;
     private String username;
     private int numberOfFollowers;
+    private int numberOfFollowing;
     private int numberOfPosts;
     @JsonBackReference
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
     private Date pageDate;
+    @JsonIgnore
+    @OneToMany(mappedBy = "followed")
+    private List<Follow> followers;
+    @JsonIgnore
+    @OneToMany(mappedBy = "follower")
+    private List<Follow> following;
     private boolean disabled;
 
     public UserPage() {
@@ -81,6 +91,14 @@ public class UserPage {
         this.numberOfFollowers = numberOfFollowers;
     }
 
+    public int getNumberOfFollowing() {
+        return numberOfFollowing;
+    }
+
+    public void setNumberOfFollowing(int numberOfFollowing) {
+        this.numberOfFollowing = numberOfFollowing;
+    }
+
     public int getNumberOfPosts() {
         return numberOfPosts;
     }
@@ -95,6 +113,28 @@ public class UserPage {
 
     public void setPageDate(Date pageDate) {
         this.pageDate = pageDate;
+    }
+
+    public List<Follow> getFollowers() {
+        return followers;
+    }
+
+    public void showFollowers() {
+        for (Follow follow : followers) {
+            System.out.println(follow.getFollowed().getUsername());
+        }
+    }
+
+    public void setFollowers(List<Follow> followers) {
+        this.followers = followers;
+    }
+
+    public List<Follow> getFollowing() {
+        return following;
+    }
+
+    public void setFollowing(List<Follow> following) {
+        this.following = following;
     }
 
     public boolean isDisabled() {

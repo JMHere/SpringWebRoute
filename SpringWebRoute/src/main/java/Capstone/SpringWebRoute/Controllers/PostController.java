@@ -1,7 +1,11 @@
 package Capstone.SpringWebRoute.Controllers;
 
+import Capstone.SpringWebRoute.Models.Userlike;
 import Capstone.SpringWebRoute.Models.Post;
+import Capstone.SpringWebRoute.Models.UserPage;
+import Capstone.SpringWebRoute.Service.LikeService;
 import Capstone.SpringWebRoute.Service.PostService;
+import Capstone.SpringWebRoute.Service.UserPageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +23,12 @@ public class PostController {
     @Autowired
     PostService postSer;
 
+    @Autowired
+    UserPageService userSer;
+
+    @Autowired
+    LikeService likeSer;
+
     @PostMapping("/AddPost/{pageId}/{username}")
     public Post addPost(@PathVariable int pageId,@PathVariable String username ,@RequestBody Post newPost) {
 
@@ -26,7 +36,8 @@ public class PostController {
         newPost.setPostDate(addDate());
         newPost.setUsername(username);
         postSer.save(newPost);
-
+        UserPage foundUser = userSer.findSingleUserPageByUsername(username);
+        foundUser.setNumberOfPosts(foundUser.getNumberOfPosts() + 1);
         return newPost;
     }
 
@@ -72,6 +83,30 @@ public class PostController {
         }
 
         return foundPost;
+    }
+
+    @PutMapping("/likePost/{pageId}/{postId}")
+    public String likedPost(@PathVariable int pageId, @PathVariable int postId) {
+        Post currentPost = postSer.getPostById(postId);
+        UserPage currentPage = userSer.findUserPageById(pageId);
+        Userlike newLike = new Userlike(currentPage.getUsername(), pageId, currentPost);
+        currentPost.getLikes().add(newLike);
+        return postSer.addLike(currentPage, currentPost, newLike);
+    }
+
+    @PutMapping("/removeLike/{pageId}/{postId}")
+    public String removedLike(@PathVariable int pageId, @PathVariable int postId) {
+        Post currentPost = postSer.getPostById(postId);
+        UserPage currentPage = userSer.findUserPageById(pageId);
+        Userlike currentLike = likeSer.findByUsername(currentPage.getUsername());
+        return postSer.removeLike(currentPage, currentPost, currentLike);
+    }
+
+    @GetMapping("/{pageId}/liked/{postId}")
+    public Boolean userLiked(@PathVariable int pageId, @PathVariable int postId) {
+        Userlike foundLike = likeSer.findLikeByIdAndPageId(pageId, postId);
+        System.out.println(foundLike);
+        return foundLike != null;
     }
 
     @PutMapping("/DeletePost/{postId}")

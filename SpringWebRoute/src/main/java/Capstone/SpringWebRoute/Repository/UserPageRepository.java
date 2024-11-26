@@ -14,4 +14,6 @@ public interface UserPageRepository extends JpaRepository<UserPage, Integer> {
     UserPage findUserPageByUserID(int userId);
 
     List<UserPage> findUserPageByUsernameStartsWith(String username);
+
+    UserPage findUserPageByUsername(String username);
 }
